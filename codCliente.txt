@@ -1,0 +1,28 @@
+import es.upb.RMI.RMI;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+
+public class Cliente {
+    public static void main(String[] args){
+        Cliente cliente = new Cliente();
+        cliente.connectServer();
+    }
+    
+    private void connectServer(){
+        try{
+            //Se especifica la dirección del cliente y la del servidor
+            Registry registro = LocateRegistry.getRegistry("localhost", 7777);
+            //Se especifica el nombre creado en el rebind en la clase servidor
+            //del proyecto Servidor, el cual es RemotoRMI
+            RMI interfaz = (RMI)registro.lookup("RemotoRMI"); 
+            
+            //Se hacen operaciones con los métodos
+            double suma = interfaz.suma(30, 10);
+            System.out.println("La suma es: " + suma);
+            
+        } catch (Exception ex){
+            System.out.println(ex);
+        }
+    }
+}
